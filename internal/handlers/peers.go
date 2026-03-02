@@ -15,7 +15,7 @@ type Peer struct {
 }
 
 func PeersHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("/peers")
+	log.Println("GET /peers")
 
 	h := r.Context().Value("homebrew").(*homebrew.Homebrew)
 

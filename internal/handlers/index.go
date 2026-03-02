@@ -13,7 +13,7 @@ import (
 var templateHTML string
 
 func IndexHandler(w http.ResponseWriter, r *http.Request) {
-	log.Println("/index.html")
+	log.Println("GET /index.html")
 
 	h := r.Context().Value("homebrew").(*homebrew.Homebrew)
 
