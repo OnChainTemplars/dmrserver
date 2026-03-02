@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>dmrserver</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width initial-scale=1">
+    <style>
+        body,
+        input {
+            background-color: black;
+        }
+
+        body,
+        input {
+            color: white;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, Fira, Sans, "Droid Sans", "Helvetica Neue", sans-serif;
+        }
+
+        h1,
+        label,
+        thead {
+            color: aquamarine;
+        }
+
+        header {
+            text-align: center;
+        }
+
+        main {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            max-width: 400px;
+            margin: auto;
+        }
+
+        form {
+            text-align: end;
+        }
+
+        input {
+            border: 1px solid aqua;
+        }
+
+        table {
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+
+        tr {
+            border-bottom: 1px solid aqua;
+        }
+
+        td {
+            padding: 0 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>{{ .Callsign }}</h1>
+    </header>
+    <main>
+        <form action="/peer/link" method="post">
+            <div>
+                <label for="id">ID</label>
+                <input name="id" id="id" />
+            </div>
+            <div>
+                <label for="ip">IP</label>
+                <input name="ip" id="ip" placeholder="0.0.0.0" />
+            </div>
+            <div>
+                <label for="port">Port</label>
+                <input name="port" id="port" placeholder="31337" />
+            </div>
+            <div>
+                <label for="auth_key">AuthKey</label>
+                <input name="auth_key" id="auth_key" />
+            </div>
+            <button type="submit">Link</button>
+        </form>
+        <table id="peers">
+            <thead>
+                <tr>
+                    <td>ID</td>
+                    <td>Addr</td>
+                    <td>Status</td>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </main>
+    <script>
+        fetch("/peers")
+            .then(response => response.json())
+            .then(data => {
+                let tableRef = document.getElementById("peers")
+                    .getElementsByTagName("tbody")[0];
+
+                data.peers.forEach(item =>
+                    tableRef.innerHTML += `<tr><td>${item.id}</td><td>${item.addr}</td><td>${item.status}</td></tr>`);
+            })
+            .catch(error => console.error(error))
+    </script>
+</body>
+
+</html>
