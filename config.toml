@@ -1,0 +1,8 @@
+ip = "0.0.0.0"
+
+[repeater]
+port = 62031
+callsign = "NONE"
+
+[http]
+port = 8080
