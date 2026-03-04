@@ -1,6 +1,6 @@
 # dmrserver
 
-DMR server made using Golang
+A private DMR server made using Golang
 
 # Build
 For linux:
