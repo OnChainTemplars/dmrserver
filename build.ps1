@@ -1,6 +1,7 @@
 param (
     [Parameter(Mandatory = $false)]
-    [string]$Task = "build"
+    [string]$Task = "build",
+    [string]$Cmd = "dmrserver"
 )
 
 function Fmt {
@@ -8,11 +9,15 @@ function Fmt {
 }
 
 function Build {
-    go build -o ./build/ ./cmd/dmrserver
+    go build -o ./build/ "./cmd/$($Cmd)"
 }
 
 function Run {
-    go run ./cmd/dmrserver
+    go run "./cmd/$($Cmd)" "-config=$($Config)"
+}
+
+switch ($Cmd) {
+    Default { $Config = "./server.toml" }
 }
 
 switch ($Task) {

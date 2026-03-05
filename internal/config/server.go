@@ -6,7 +6,7 @@ import (
 	"github.com/BurntSushi/toml"
 )
 
-type Config struct {
+type Server struct {
 	IP       string
 	Repeater Repeater
 	HTTP     HTTP
@@ -21,12 +21,8 @@ type HTTP struct {
 	Port int
 }
 
-func Parse(path string) *Config {
-	config := new(Config)
-
-	if _, err := toml.DecodeFile(path, config); err != nil {
+func (c *Server) Parse(path string) {
+	if _, err := toml.DecodeFile(path, c); err != nil {
 		log.Fatalln(err)
 	}
-
-	return config
 }

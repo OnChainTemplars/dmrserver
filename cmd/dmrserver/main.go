@@ -2,6 +2,7 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -19,7 +20,7 @@ func contextMiddleware(next http.Handler, h *homebrew.Homebrew) http.Handler {
 	})
 }
 
-func httpServer(h *homebrew.Homebrew, c *config.Config) {
+func httpServer(h *homebrew.Homebrew, c *config.Server) {
 	mux := http.NewServeMux()
 
 	mux.HandleFunc("/peers", handlers.PeersHandler)
@@ -34,7 +35,12 @@ func httpServer(h *homebrew.Homebrew, c *config.Config) {
 }
 
 func main() {
-	config := config.Parse("./config.toml")
+	configPath := flag.String("config", "./config.toml", "Path to the configuration file")
+
+	flag.Parse()
+
+	config := new(config.Server)
+	config.Parse(*configPath)
 
 	repeaterConfig := homebrew.RepeaterConfiguration{
 		Callsign: config.Repeater.Callsign,
